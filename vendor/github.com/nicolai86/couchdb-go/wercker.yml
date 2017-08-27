@@ -1,0 +1,29 @@
+box: golang
+
+services:
+  - id: couchdb
+    env: 
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: admin
+
+build:
+  steps:
+    - setup-go-workspace
+
+    - script:
+        name: go get
+        code: |
+          go get
+
+    - script:
+        name: go build
+        code: |
+          go build ./...
+
+    - script:
+        name: go test
+        code: |
+          export COUCHDB_HOST_PORT="http://$COUCHDB_PORT_5984_TCP_ADDR:$COUCHDB_PORT_5984_TCP_PORT"
+          export COUCHDB_USERNAME=admin
+          export COUCHDB_PASSWORD=admin
+          go test ./...

@@ -1,0 +1,39 @@
+apiVersion: "stable.couchdb.org/v1"
+kind: CouchDB
+metadata:
+  name: my-couchdb-cluster
+  namespace: default
+spec:
+  version: "2.1.0"
+  baseImage:   "nicolai86/couchdb"
+  size: 3
+  pod: 
+    labels:
+      app: couchdb
+    nodeSelector:
+      app: couchdb
+    antiAffinity: false
+    couchdbEnv:
+      - { name: COUCHDB_USER, value: admin }
+      - { name: COUCHDB_PASSWORD, value: admin }
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: couchdb
+spec:
+  selector:
+    cluster: my-couchdb-cluster
+    app: couchdb
+  ports:
+  - protocol: TCP
+    port: 5986
+    name: "node-local"
+    targetPort: 5986
+    nodePort: 31986
+  - protocol: TCP
+    port: 5984
+    name: "standalone"
+    targetPort: 5984
+    nodePort: 31984
+  type: NodePort

@@ -1,0 +1,17 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: couchdbs.stable.couchdb.org
+spec:
+  # group name & version to use for REST API: /apis/<group>/<version>
+  group: stable.couchdb.org
+  version: v1
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: couchdbs
+    # singular name to be used as an alias on the CLI and for display
+    singular: couchdb
+    kind: CouchDB
+    shortNames:
+    - cdb
