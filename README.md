@@ -44,6 +44,8 @@ spec:
   replicas: 3 
 ```
 
+the operator takes care of spawning the necessary pods and joining them into a single cluster.
+
 ## development
 
 required: golang 1.9+, kubernetes cluster (minikube, GKE, Azure...).
