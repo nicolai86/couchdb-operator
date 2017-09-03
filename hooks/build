@@ -1,2 +1,2 @@
 #!/bin/bash 
-docker build -t $IMAGE_NAME --build-arg SOURCE_COMMIT=$SOURCE_COMMIT --build-arg CACHE_TAG=$CACHE_TAG .
+docker build -t $IMAGE_NAME --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) --build-arg CACHE_TAG=$(git describe --tags) .
