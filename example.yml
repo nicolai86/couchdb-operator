@@ -27,11 +27,6 @@ spec:
     app: couchdb
   ports:
   - protocol: TCP
-    port: 5986
-    name: "node-local"
-    targetPort: 5986
-    nodePort: 31986
-  - protocol: TCP
     port: 5984
     name: "standalone"
     targetPort: 5984
