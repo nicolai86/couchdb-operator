@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: couchdb-operator
-        image: nicolai86/couchdb-operator:v0.0.1
+        image: nicolai86/couchdb-operator:v0.0.2
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
