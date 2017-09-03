@@ -43,3 +43,19 @@ spec:
   image:   "nicolai86/couchdb"
   replicas: 3 
 ```
+
+## development
+
+required: golang 1.9+, kubernetes cluster (minikube, GKE, Azure...).
+To get a working operator locally, assuming kubectl is setup correctly:
+
+```
+$ go get -u github.com/golang/dep/cmd/dep
+$ go get -du github.com/nicolai86/couchdb-operator
+$ cd $(go env GOPATH)/src/github.com/nicolai86/couchdb-operator
+$ dep ensure
+$ OPERATOR_NAMESPACE=couchdb-operator 
+$ OPERATOR_NAME=couchdb-operator 
+$ KUBECONFIG=~/.kube/config 
+$ go run main.go
+```
