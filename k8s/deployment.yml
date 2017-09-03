@@ -13,6 +13,12 @@ spec:
       - name: couchdb-operator
         image: nicolai86/couchdb-operator:v0.0.1
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
         env:
         - name: OPERATOR_NAMESPACE
           valueFrom:

@@ -13,6 +13,7 @@ import (
 	"github.com/nicolai86/couchdb-operator/probe"
 	"github.com/nicolai86/couchdb-operator/spec"
 	"github.com/nicolai86/couchdb-operator/version"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	k8sruntime "k8s.io/apimachinery/pkg/runtime"
@@ -336,6 +337,12 @@ func main() {
 			})
 		controller.Run(nil)
 	}
+
+	probe.SetReady()
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt)
+	<-sig
 }
 
 func couchdbContainer(baseImage, version string) apiv1.Container {
