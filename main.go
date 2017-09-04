@@ -108,7 +108,7 @@ func main() {
 		source := cache.NewListWatchFromClient(
 			client.Core().RESTClient(),
 			apiv1.ResourcePods.String(),
-			apiv1.NamespaceAll,
+			namespace,
 			fields.Everything())
 
 		_, controller := cache.NewInformer(
@@ -254,7 +254,7 @@ func main() {
 		source := cache.NewListWatchFromClient(
 			couchRestClient,
 			"couchdbs",
-			apiv1.NamespaceAll,
+			namespace,
 			fields.Everything())
 
 		_, controller := cache.NewInformer(
