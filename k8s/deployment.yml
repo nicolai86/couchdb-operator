@@ -2,6 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: couchdb-operator
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -14,11 +15,11 @@ spec:
       - name: couchdb-operator
         image: nicolai86/couchdb-operator:v0.0.3
         imagePullPolicy: Always
-        livenessProbe:
+        readinessProbe:
           httpGet:
-            path: /healthz
+            path: /readyz
             port: 8080
-          initialDelaySeconds: 3
+          initialDelaySeconds: 5
           periodSeconds: 3
         env:
         - name: OPERATOR_NAMESPACE

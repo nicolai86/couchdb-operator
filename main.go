@@ -335,7 +335,7 @@ func main() {
 					// TODO if deployments exist, delete all
 				},
 			})
-		controller.Run(nil)
+		go controller.Run(nil)
 	}
 
 	probe.SetReady()
