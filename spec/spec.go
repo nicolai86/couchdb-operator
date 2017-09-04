@@ -33,10 +33,8 @@ type PodPolicy struct {
 	AntiAffinity bool `json:"antiAffinity,omitempty"`
 
 	// List of environment variables to set in the couchdb container.
-	// This is used to configure couchdb process. couchdb cluster cannot be created, when
-	// bad environement variables are provided. Do not overwrite any flags used to
-	// bootstrap the cluster (for example `--initial-cluster` flag).
-	// This field cannot be updated.
+	// should container COUCHDB_USER and COUCHDB_PASSWORD. If it doesn't,
+	// admin/admin will be choosen
 	CouchDBEnv []apiv1.EnvVar `json:"couchdbEnv,omitempty"`
 }
 

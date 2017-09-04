@@ -13,6 +13,10 @@ this k8s operator allows you to run a 2.1 couchdb cluster on top of k8s.
     - [x] management custom object delete (delete cluster)
   - [x] deployment template (port, readyness, livelyness)
   - [ ] cluster management
+    - [x] credentials from configMap, secrets
+    - [x] pod anti affinity
+    - [x] node selection via labels
+    - [x] custom labels
     - [ ] new pod -> join cluster
     - [ ] old pod gone -> leave cluster
   - [x] operator definition

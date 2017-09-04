@@ -16,6 +16,8 @@ spec:
     couchdbEnv:
       - { name: COUCHDB_USER, value: admin }
       - { name: COUCHDB_PASSWORD, value: admin }
+      # - { name: COUCHDB_PASSWORD, valueFrom: { configMapRef: { name: couchdb-config-map, key: username } } }
+      # - { name: COUCHDB_PASSWORD, valueFrom: { secretKeyRef: { name: couchdb-secret, key: username } } }
 ---
 kind: Service
 apiVersion: v1
@@ -32,3 +34,19 @@ spec:
     targetPort: 5984
     nodePort: 31984
   type: NodePort
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: couchdb-config-map
+  namespace: default
+data:
+  password: admin-configmap
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: couchdb-secret
+  namespace: default
+data:
+  password: YWRtaW4tc2VjcmV0bWFw # admin-secretmap
