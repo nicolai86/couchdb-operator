@@ -5,16 +5,17 @@ this k8s operator allows you to run a 2.1 couchdb cluster on top of k8s.
 ## status
 
 - [ ] operator
-    - [ ] CRD (CouchDB)
-      - [x] definition
-      - [x] management custom object add (spawn cluster)
-      - [ ] management custom object update (update cluster)
-      - [x] management custom object delete (delete cluster)
-    - [x] deployment template (port, readyness, livelyness)
-    - [ ] cluster management
-      - [ ] new pod -> join cluster
-      - [ ] old pod gone -> leave cluster
-    - [x] operator definition
+  - [x] RBAC support
+  - [ ] CRD (CouchDB)
+    - [x] definition
+    - [x] management custom object add (spawn cluster)
+    - [ ] management custom object update (update cluster)
+    - [x] management custom object delete (delete cluster)
+  - [x] deployment template (port, readyness, livelyness)
+  - [ ] cluster management
+    - [ ] new pod -> join cluster
+    - [ ] old pod gone -> leave cluster
+  - [x] operator definition
 - [x] README
 
 ## guiding notes
