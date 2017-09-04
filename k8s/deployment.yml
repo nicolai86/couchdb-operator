@@ -12,7 +12,7 @@ spec:
       serviceAccountName: couchdb-operator
       containers:
       - name: couchdb-operator
-        image: nicolai86/couchdb-operator:v0.0.2
+        image: nicolai86/couchdb-operator:v0.0.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
