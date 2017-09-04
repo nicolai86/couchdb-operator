@@ -147,7 +147,7 @@ func main() {
 						cluster = o.(*spec.CouchDB)
 					}
 
-					list, err := client.CoreV1().Pods(c.Namespace).List(metav1.ListOptions{LabelSelector: fmt.Sprintf("cluster=%s", c.Labels["cluster"])})
+					list, err := client.CoreV1().Pods(c.Namespace).List(metav1.ListOptions{LabelSelector: fmt.Sprintf("couchdb_cluster=%s", c.Labels["cluster"])})
 					if err != nil {
 						log.Printf("could nod list couchdb cluster %q pods: %v\n", c.Name, err.Error())
 						return
@@ -282,7 +282,7 @@ func main() {
 						log.Printf("failed to update cluster state: %#v", err.Error())
 					}
 
-					list, err := client.CoreV1().Pods(c.Namespace).List(metav1.ListOptions{LabelSelector: fmt.Sprintf("cluster=%s", c.Name)})
+					list, err := client.CoreV1().Pods(c.Namespace).List(metav1.ListOptions{LabelSelector: fmt.Sprintf("couchdb_cluster=%s", c.Name)})
 					if err != nil {
 						log.Printf("could nod list couchdb cluster %q pods: %v\n", c.Name, err.Error())
 						return
@@ -318,7 +318,7 @@ func main() {
 					}
 					log.Printf("Removing couchdb cluster %q in ns %q\n", c.Name, c.Namespace)
 
-					list, err := client.CoreV1().Pods(c.Namespace).List(metav1.ListOptions{LabelSelector: fmt.Sprintf("cluster=%s", c.Name)})
+					list, err := client.CoreV1().Pods(c.Namespace).List(metav1.ListOptions{LabelSelector: fmt.Sprintf("couchdb_cluster=%s", c.Name)})
 					if err != nil {
 						log.Printf("could not delete clust %q: %v\n", c.ClusterName, err.Error())
 					}
@@ -424,12 +424,13 @@ func getMyPodServiceAccount(kubecli kubernetes.Interface) (string, error) {
 
 func newCouchdbPod(clustername, password string, spec *spec.PodPolicy) *apiv1.Pod {
 	c := couchdbContainer(couchdbImage, couchdbVersion)
+	// spec.AntiAffinity
 	pod := &apiv1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			GenerateName: "couchdb-",
 			Labels: map[string]string{
-				"app":     "couchdb",
-				"cluster": clustername,
+				"app":             "couchdb",
+				"couchdb_cluster": clustername,
 			},
 			Annotations: map[string]string{},
 		},
@@ -440,6 +441,21 @@ func newCouchdbPod(clustername, password string, spec *spec.PodPolicy) *apiv1.Po
 			Subdomain:     clustername,
 			Volumes:       nil,
 		},
+	}
+	if spec.AntiAffinity {
+		selector := &metav1.LabelSelector{MatchLabels: map[string]string{
+			"couchdb_cluster": clustername,
+		}}
+		pod.Spec.Affinity = &apiv1.Affinity{
+			PodAntiAffinity: &apiv1.PodAntiAffinity{
+				RequiredDuringSchedulingIgnoredDuringExecution: []apiv1.PodAffinityTerm{
+					{
+						LabelSelector: selector,
+						TopologyKey:   "kubernetes.io/hostname",
+					},
+				},
+			},
+		}
 	}
 	return pod
 }

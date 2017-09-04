@@ -28,12 +28,12 @@ type PodPolicy struct {
 	// labels.
 	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
 
-	// AntiAffinity determines if the etcd-operator tries to avoid putting
-	// the etcd members in the same cluster onto the same node.
+	// AntiAffinity determines if the couchdb-operator tries to avoid putting
+	// the couchdb members in the same cluster onto the same node.
 	AntiAffinity bool `json:"antiAffinity,omitempty"`
 
-	// List of environment variables to set in the etcd container.
-	// This is used to configure etcd process. etcd cluster cannot be created, when
+	// List of environment variables to set in the couchdb container.
+	// This is used to configure couchdb process. couchdb cluster cannot be created, when
 	// bad environement variables are provided. Do not overwrite any flags used to
 	// bootstrap the cluster (for example `--initial-cluster` flag).
 	// This field cannot be updated.
